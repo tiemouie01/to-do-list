@@ -14,12 +14,17 @@ export default function Project(name) {
     };
 
     const removeTodo = (title) => {
-        const index = todos.findIndex(todo => todo === title);
+        const index = todos.findIndex(todo => todo.title === title);
         todos.splice(index,1);
     }
 
     const completeTodo = (title) => {
         const index = todos.findIndex(todo => todo === title);
         completedTodos.push(todos.splice(index,1)[0]);
+    }
+
+    const changeTodoPriority = (title, value) => {
+        const todo = todos.find(todo => todo.title === title);
+        todo.setPriority(value);
     }
 }
