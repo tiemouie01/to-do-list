@@ -27,4 +27,16 @@ export default function Project(name) {
         const todo = todos.find(todo => todo.title === title);
         todo.setPriority(value);
     }
+
+    const getTodoList = () => todos;
+    const getCompletedList = () => completedTodos;
+
+    return {
+        addTodo,
+        removeTodo,
+        completeTodo,
+        changeTodoPriority,
+        getTodoList,
+        getCompletedList
+    }
 }
