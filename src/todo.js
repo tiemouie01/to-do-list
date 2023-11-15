@@ -1,16 +1,16 @@
-import logMessage from "./logger.js";
+import { logMessage } from "./console.js";
 
 export default function ToDo(title, description, dueDate, priority) {
-    let note = ''
+    let note = '';
 
     const addNote = (value) => {
-        if (note.length > 1000){
-            logMessage('Notes cannot contain more than 1000 characters')
+        if (note.length > 1000) {
+            logMessage('Notes cannot contain more than 1000 characters');
         }
-        note = value
+        note = value;
     }
 
-    const getNote = () => note
+    const getNote = () => note;
 
     return {
         title,
@@ -19,5 +19,5 @@ export default function ToDo(title, description, dueDate, priority) {
         priority,
         addNote,
         getNote,
-    }
+    };
 }

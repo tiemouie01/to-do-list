@@ -10,7 +10,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'To-do List',
-        })
+        }), 
     ],
     output: {
         filename: 'bundle.js',
