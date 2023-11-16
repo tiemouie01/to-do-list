@@ -2,9 +2,14 @@ function logMessage(message) {
     console.log(message);
 }
 
-function getValue(name) {
-    const value = prompt(`Enter the ${name}:`);
-    return value;
+function viewTodos(project) {
+    console.log(`Project Name: ${project.getName()}`);
+    
+    console.log('Todos:');
+    console.table(project.getTodoList());
+
+    console.log('Completed todos:');
+    console.table(project.getCompletedList());
 }
 
-export { logMessage, getValue };
+export { logMessage, viewTodos };
