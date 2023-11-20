@@ -1,3 +1,3 @@
-import ScreenController from "./interface";
+// import ScreenController from "./interface";
 
-ScreenController();
+// // ScreenController();
