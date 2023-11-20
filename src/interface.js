@@ -1,5 +1,7 @@
 function createSection(sectionName) {
-  return document.createElement("div").classList.add(sectionName);
+  const sectionDiv = document.createElement("div");
+  sectionDiv.classList.add(sectionName);
+  return sectionDiv;
 }
 
 function buildInterface() {
