@@ -19,7 +19,7 @@ export default function Project(name) {
   };
 
   const changeTodoPriority = (title, value) => {
-    (todos.find((todo) => todo.title === title)).priority = value;
+    todos.find((todo) => todo.title === title).priority = value;
   };
 
   const getName = () => name;

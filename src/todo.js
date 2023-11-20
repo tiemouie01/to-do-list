@@ -1,4 +1,4 @@
-import { logMessage } from "./console.js";
+import { logMessage } from "./console";
 
 export default function ToDo(title, description, dueDate, priority) {
   let note = "";
