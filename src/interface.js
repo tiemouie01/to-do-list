@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import Project from "./project";
 import ToDo from "./todo";
 
@@ -26,11 +27,13 @@ function createTodoCard(todo) {
   buttonDiv.appendChild(importanceButton);
 
   const removeTodoButton = document.createElement("button");
-  const removeTodoIcon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>';
+  const removeTodoIcon =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>';
   removeTodoButton.innerHTML = removeTodoIcon;
   buttonDiv.appendChild(removeTodoButton);
 
   todoCard.appendChild(buttonDiv);
+  return todoCard;
 }
 
 function viewProject(project) {
@@ -44,6 +47,12 @@ function viewProject(project) {
   addTodoButton.textContent = "Add todo";
   addTodoButton.classList.add("add-todo");
   mainDiv.appendChild(addTodoButton);
+
+  // Add todo items to page.
+  const todoList = project.getTodoList();
+  for (let i = 0; i < todoList.length; i++) {
+    mainDiv.appendChild(createTodoCard(todoList[i]));
+  }
 }
 
-export default function ScreenController() {}
+export { viewProject };
