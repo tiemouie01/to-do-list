@@ -2,6 +2,84 @@
 import Project from "./project";
 import ToDo from "./todo";
 
+function createTextArea(fieldName, id, value) {
+  const div = document.createElement("div");
+
+  const label = document.createElement("label");
+  label.textContent = fieldName;
+  label.setAttribute("for", id);
+  div.appendChild(label);
+
+  const textArea = document.createElement("textarea");
+  textArea.setAttribute("id", id);
+  textArea.setAttribute("name", id);
+  textArea.setAttribute("value", value);
+  textArea.setAttribute("rows", "20");
+  textArea.setAttribute("cols", "60");
+  div.appendChild(textArea);
+
+  return div;
+}
+
+function createFormField(fieldName, id, value) {
+  const div = document.createElement("div");
+
+  const label = document.createElement("label");
+  label.textContent = fieldName;
+  label.setAttribute("for", id);
+  div.appendChild(label);
+
+  const input = document.createElement("input");
+  input.setAttribute("id", id);
+  input.setAttribute("name", id);
+  input.setAttribute("value", value);
+  div.appendChild(input);
+
+  return div;
+}
+
+function createTodoForm(
+  title = "",
+  dueDate = "",
+  priority = "",
+  description = "",
+  note = "",
+) {
+  const form = document.createElement("form");
+
+  // Add necessary form fields.
+  form.appendChild(createFormField("Title:", "title", title));
+  form.appendChild(createFormField("Due Date:", "date", dueDate));
+  form.appendChild(createFormField("Priority:", "priority", priority));
+  form.appendChild(createTextArea("Description:", "description", description));
+  form.appendChild(createTextArea("Note:", "note", note));
+
+  // Add button that submits the form..
+  const submitButton = document.createElement("button");
+  submitButton.textContent = "Make Changes";
+  submitButton.setAttribute("type", "submit");
+  form.appendChild(submitButton);
+
+  return form;
+}
+
+function viewFullTodo(todo) {
+  const mainDiv = document.querySelector('.main-content');
+  const todoModal = document.createElement("dialog");
+  todoModal.classList.add("full-todo");
+  todoModal.appendChild(
+    createTodoForm(
+      todo.title,
+      todo.dueDate,
+      todo.priority,
+      todo.description,
+      todo.note,
+    ),
+  );
+  mainDiv.appendChild(todoModal);
+  todoModal.showModal();
+}
+
 function createTodoCard(todo) {
   const todoCard = document.createElement("div");
   todoCard.classList.add("todo-card");
@@ -33,6 +111,11 @@ function createTodoCard(todo) {
   buttonDiv.appendChild(removeTodoButton);
 
   todoCard.appendChild(buttonDiv);
+
+  // Add event listener to card
+  todoCard.addEventListener("click", () => {
+    viewFullTodo(todo);
+  });
   return todoCard;
 }
 
