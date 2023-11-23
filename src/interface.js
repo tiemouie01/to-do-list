@@ -2,6 +2,14 @@
 import Project from "./project";
 import ToDo from "./todo";
 
+function submitChanges(todo) {
+  todo.title = document.getElementById("title").value;
+  todo.dueDate = document.getElementById("date").value;
+  todo.description = document.getElementById("description").value;
+  todo.priority = document.getElementById("priority").value;
+  todo.addNote(document.getElementById("note").value);
+}
+
 function createTextArea(fieldName, id, value) {
   const div = document.createElement("div");
 
@@ -13,7 +21,7 @@ function createTextArea(fieldName, id, value) {
   const textArea = document.createElement("textarea");
   textArea.setAttribute("id", id);
   textArea.setAttribute("name", id);
-  textArea.setAttribute("value", value);
+  textArea.textContent = value;
   textArea.setAttribute("rows", "20");
   textArea.setAttribute("cols", "60");
   div.appendChild(textArea);
@@ -38,44 +46,45 @@ function createFormField(fieldName, id, value) {
   return div;
 }
 
-function createTodoForm(
-  title = "",
-  dueDate = "",
-  priority = "",
-  description = "",
-  note = "",
-) {
+function createTodoForm(todo) {
   const form = document.createElement("form");
 
   // Add necessary form fields.
-  form.appendChild(createFormField("Title:", "title", title));
-  form.appendChild(createFormField("Due Date:", "date", dueDate));
-  form.appendChild(createFormField("Priority:", "priority", priority));
-  form.appendChild(createTextArea("Description:", "description", description));
-  form.appendChild(createTextArea("Note:", "note", note));
+  form.appendChild(createFormField("Title:", "title", todo.title));
+  form.appendChild(createFormField("Due Date:", "date", todo.dueDate));
+  form.appendChild(createFormField("Priority:", "priority", todo.priority));
+  form.appendChild(
+    createTextArea("Description:", "description", todo.description),
+  );
+  form.appendChild(createTextArea("Note:", "note", todo.getNote()));
 
   // Add button that submits the form..
   const submitButton = document.createElement("button");
   submitButton.textContent = "Make Changes";
   submitButton.setAttribute("type", "submit");
+  submitButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    submitChanges(todo);
+  });
   form.appendChild(submitButton);
 
   return form;
 }
 
+function removeModal() {
+  const todoModal = document.querySelector(".full-todo");
+
+  if (!todoModal) {
+    return;
+  }
+  todoModal.remove();
+}
+
 function viewFullTodo(todo) {
-  const mainDiv = document.querySelector('.main-content');
+  const mainDiv = document.querySelector(".main-content");
   const todoModal = document.createElement("dialog");
   todoModal.classList.add("full-todo");
-  todoModal.appendChild(
-    createTodoForm(
-      todo.title,
-      todo.dueDate,
-      todo.priority,
-      todo.description,
-      todo.note,
-    ),
-  );
+  todoModal.appendChild(createTodoForm(todo));
   mainDiv.appendChild(todoModal);
   todoModal.showModal();
 }
@@ -114,6 +123,7 @@ function createTodoCard(todo) {
 
   // Add event listener to card
   todoCard.addEventListener("click", () => {
+    removeModal();
     viewFullTodo(todo);
   });
   return todoCard;
