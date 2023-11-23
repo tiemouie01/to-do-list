@@ -1,6 +1,11 @@
 import { logMessage } from "./console";
 
-export default function ToDo(title, description, dueDate, priority) {
+export default function ToDo(
+  title = "",
+  description = "",
+  dueDate = "",
+  priority = "",
+) {
   let note = "No note added.";
 
   const addNote = (value) => {
