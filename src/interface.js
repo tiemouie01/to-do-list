@@ -1,151 +1,69 @@
-/* eslint-disable no-plusplus */
 import Project from "./project";
 import ToDo from "./todo";
 
-function submitChanges(todo) {
-  todo.title = document.getElementById("title").value;
-  todo.dueDate = document.getElementById("date").value;
-  todo.description = document.getElementById("description").value;
-  todo.priority = document.getElementById("priority").value;
-  todo.addNote(document.getElementById("note").value);
+function addProjectEvents() {
+  // Add event listeners to all project names on the sidebar that clear the main section and load the project's information.
 }
 
-function createTextArea(fieldName, id, value) {
-  const div = document.createElement("div");
-
-  const label = document.createElement("label");
-  label.textContent = fieldName;
-  label.setAttribute("for", id);
-  div.appendChild(label);
-
-  const textArea = document.createElement("textarea");
-  textArea.setAttribute("id", id);
-  textArea.setAttribute("name", id);
-  textArea.textContent = value;
-  textArea.setAttribute("rows", "20");
-  textArea.setAttribute("cols", "60");
-  div.appendChild(textArea);
-
-  return div;
+function loadProject() {
+  // Get the name of the project from the DOM's main div.
+  // Search and find a project using its name as the search parameter and return the Project Object.
 }
 
-function createFormField(fieldName, id, value) {
-  const div = document.createElement("div");
-
-  const label = document.createElement("label");
-  label.textContent = fieldName;
-  label.setAttribute("for", id);
-  div.appendChild(label);
-
-  const input = document.createElement("input");
-  input.setAttribute("id", id);
-  input.setAttribute("name", id);
-  input.setAttribute("value", value);
-  div.appendChild(input);
-
-  return div;
+function loadCards() {
+  // Clear the screen of any todo cards present.
+  // Create a container for all the cards.
+  // Loop through each todo in the project and create it's card using createTodoCard().
 }
 
-function createTodoForm(todo) {
-  const form = document.createElement("form");
-
-  // Add necessary form fields.
-  form.appendChild(createFormField("Title:", "title", todo.title));
-  form.appendChild(createFormField("Due Date:", "date", todo.dueDate));
-  form.appendChild(createFormField("Priority:", "priority", todo.priority));
-  form.appendChild(
-    createTextArea("Description:", "description", todo.description),
-  );
-  form.appendChild(createTextArea("Note:", "note", todo.getNote()));
-
-  // Add button that submits the form..
-  const submitButton = document.createElement("button");
-  submitButton.textContent = "Make Changes";
-  submitButton.setAttribute("type", "submit");
-  submitButton.addEventListener("click", (event) => {
-    event.preventDefault();
-    submitChanges(todo);
-  });
-  form.appendChild(submitButton);
-
-  return form;
+function deleteTodo(title) {
+  // Load the project using loadTodo().
+  // Remove the todo from the project's todo array using the Project.removeTodo(title) method.
+  // Reload the cards in the page using loadCards();
 }
 
-function removeModal() {
-  const todoModal = document.querySelector(".full-todo");
-
-  if (!todoModal) {
-    return;
-  }
-  todoModal.remove();
-}
-
-function viewFullTodo(todo) {
-  const mainDiv = document.querySelector(".main-content");
-  const todoModal = document.createElement("dialog");
-  todoModal.classList.add("full-todo");
-  todoModal.appendChild(createTodoForm(todo));
-  mainDiv.appendChild(todoModal);
-  todoModal.showModal();
+function setImportant(title) {
+  // load the project using loadTodo().
+  // Get the todo using Project.getTodo(title) method.
+  // Add the return todo to the important project using the global Project array.
 }
 
 function createTodoCard(todo) {
-  const todoCard = document.createElement("div");
-  todoCard.classList.add("todo-card");
-
-  // Add a title to the todo card
-  const title = document.createElement("h2");
-  title.textContent = todo.title;
-  todoCard.appendChild(title);
-
-  // Add a due date to the todo card
-  const dueDate = document.createElement("p");
-  dueDate.textContent = todo.dueDate;
-  todoCard.appendChild(dueDate);
-
-  // Add buttons that set importance and remove a todo.
-  const buttonDiv = document.createElement("div");
-  buttonDiv.classList.add("todo-buttons");
-
-  const importanceButton = document.createElement("button");
-  const importanceIcon =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.23,18L12,15.45L7.77,18L8.89,13.19L5.16,9.96L10.08,9.54L12,5L13.92,9.53L18.84,9.95L15.11,13.18L16.23,18M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>';
-  importanceButton.innerHTML = importanceIcon;
-  buttonDiv.appendChild(importanceButton);
-
-  const removeTodoButton = document.createElement("button");
-  const removeTodoIcon =
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" /></svg>';
-  removeTodoButton.innerHTML = removeTodoIcon;
-  buttonDiv.appendChild(removeTodoButton);
-
-  todoCard.appendChild(buttonDiv);
-
-  // Add event listener to card
-  todoCard.addEventListener("click", () => {
-    removeModal();
-    viewFullTodo(todo);
-  });
-  return todoCard;
+  // set id for card.
+  // add the title
+  // add the due date.
+  // add a set of buttons for setting importance and deleting a todo.
+  // add event listeners for both buttons using setImportant() and deleteTodo(title).
 }
 
-function viewProject(project) {
-  const mainDiv = document.querySelector(".main-content");
-
-  const projectTitle = document.createElement("h1");
-  projectTitle.textContent = project.getName();
-  mainDiv.appendChild(projectTitle);
-
-  const addTodoButton = document.createElement("button");
-  addTodoButton.textContent = "Add todo";
-  addTodoButton.classList.add("add-todo");
-  mainDiv.appendChild(addTodoButton);
-
-  // Add todo items to page.
-  const todoList = project.getTodoList();
-  for (let i = 0; i < todoList.length; i++) {
-    mainDiv.appendChild(createTodoCard(todoList[i]));
-  }
+function createTodo() {
+  // This function is executed when a user clicks "Create Todo" on the "Add Todo" form.
+  // load the project using loadProject().
+  // add the todo to project's array of todos.
+  // reload the project cards on the page using loadCards().
 }
 
-export { viewProject };
+function makeChanges() {
+  // This function is executed when a user clicks "Make Changes" on the "View Todo" form.
+  // load the project into a variable using loadProject().
+}
+
+function viewProject() {
+  // Remove any previously loaded pages from the main section.
+  // Add the name of the project at the top of the main section.
+  // Add an "Add Todo" button.
+  // Add event listener for the "Add Todo" button.
+  // Load the cards using loadCards();
+}
+
+function addProject(projectName) {
+  // Query personal sidebar div into a variable.
+  // Add event listener to project div that loads it onto the main section.
+}
+
+function createPersonalProject() {
+  // Add a modal to the body.
+  // Request the name of the new project, including a space for entering the name and a submission button.
+  // Add an event listener to the submit button that creates a new project, appends it to the global projects array.
+  // Event listener should add the new project the DOM using addProject().
+}
