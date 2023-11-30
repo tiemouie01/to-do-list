@@ -21,6 +21,8 @@ export default function Project(name) {
     completedTodos.push(todos.splice(index, 1)[0]);
   };
 
+  const getTodo = (title) => todos.find((todo) => todo.title === title);
+
   const changeTodoPriority = (title, value) => {
     todos.find((todo) => todo.title === title).priority = value;
   };
@@ -34,6 +36,7 @@ export default function Project(name) {
     addTodo,
     editTodo,
     removeTodo,
+    getTodo,
     completeTodo,
     changeTodoPriority,
     getTodoList,
