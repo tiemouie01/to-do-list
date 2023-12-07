@@ -8,7 +8,8 @@ export default function Project(name) {
     todos.push(ToDo(title, description, dueDate, priority));
   };
 
-  const editTodo = (modifiedTodo, index) => {
+  const editTodo = (title, modifiedTodo) => {
+    const index = todos.findIndex((todo) => todo.title === title);
     todos.splice(index, 1, modifiedTodo);
   };
   const removeTodo = (title) => {

@@ -5,9 +5,8 @@ export default function ToDo(
   description = "",
   dueDate = "",
   priority = "",
+  note = "No note added.",
 ) {
-  let note = "No note added.";
-
   const addNote = (value) => {
     if (note.length > 1000) {
       logMessage("Notes cannot contain more than 1000 characters");
