@@ -81,6 +81,51 @@ function loadProject(name = "") {
   return projects.find((project) => project.getName() === name);
 }
 
+function viewTodoForm(title, dueDate, priority, description, note) {
+  const form = document.createElement("form");
+
+  form.appendChild(createFormField("Title", title));
+  form.appendChild(createFormField("Due Date", dueDate));
+  form.appendChild(createFormField("Priority", priority));
+  form.appendChild(createTextArea("Description", description));
+  form.appendChild(createTextArea("Note", note));
+
+  const editTodoButton = document.createElement("button");
+  editTodoButton.setAttribute("type", "submit");
+  editTodoButton.textContent = "Edit Todo";
+  editTodoButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    // Add the todo to the project.
+    makeChanges(title);
+
+    // Close the modal.
+    const todoModal = document.querySelector(".create-todo-modal");
+    todoModal.close();
+    todoModal.remove();
+  });
+  form.appendChild(editTodoButton);
+
+  return form;
+}
+
+function editTodo(todo) {
+  const mainContent = document.querySelector(".main-content");
+  // Create a modal that will hold the form and view it.
+  const todoModal = document.createElement("dialog");
+  todoModal.className = "edit-todo-modal";
+  todoModal.appendChild(
+    viewTodoForm(
+      todo.title,
+      todo.dueDate,
+      todo.priority,
+      todo.description,
+      todo.getNote(),
+    ),
+  );
+  mainContent.appendChild(todoModal);
+  todoModal.showModal();
+}
+
 function createTodoCard(todo) {
   // Create card div and set it's id.
   const card = document.createElement("div");
@@ -107,8 +152,12 @@ function createTodoCard(todo) {
     deleteTodo(todo.title);
   });
   buttonContainer.appendChild(deleteButton);
-
   card.appendChild(buttonContainer);
+
+  // Add an event listener that allows a user to view the card in full.
+  card.addEventListener("click", () => {
+    editTodo(todo);
+  });
   return card;
 }
 
@@ -137,17 +186,6 @@ function deleteTodo(title) {
   loadCards();
 }
 
-function setImportant(title) {
-  // load the project using loadTodo().
-  const project = loadProject();
-  const importantProject = loadProject("Important");
-
-  // Get the todo using Project.getTodo(title) method.
-  // Add the return todo to the important project using the global Project array.
-  importantProject.addTodo(project.getTodo(title));
-}
-
-
 function createTodo(event) {
   // This function is executed when a user clicks "Create Todo" on the "Add Todo" form.
 
@@ -170,7 +208,7 @@ function createTodo(event) {
 }
 
 function makeChanges(oldTitle) {
-  // This function is executed when a user clicks "Make Changes" on the "View Todo" form.
+  // This function is executed when a user clicks "edit todo" on the "View Todo" form.
   // load the project into a variable using loadProject().
   const project = loadProject();
 
@@ -190,7 +228,7 @@ function makeChanges(oldTitle) {
 
 // Functions that create the necessary form fields for creating and modifying a todo.
 
-function createTextArea(name) {
+function createTextArea(name, value) {
   // Create the container for the field.
   const fieldContainer = document.createElement("div");
 
@@ -207,12 +245,15 @@ function createTextArea(name) {
   textArea.setAttribute("id", createId(name));
   textArea.setAttribute("rows", "20");
   textArea.setAttribute("cols", "30");
+  if (value) {
+    textArea.textContent = value;
+  }
   fieldContainer.appendChild(textArea);
 
   return fieldContainer;
 }
 
-function createFormField(name) {
+function createFormField(name, value = "") {
   // Create the container for the field.
   const fieldContainer = document.createElement("div");
 
@@ -227,6 +268,9 @@ function createFormField(name) {
   input.setAttribute("type", "text");
   input.setAttribute("name", createId(name));
   input.setAttribute("id", createId(name));
+  if (value) {
+    input.setAttribute("value", value);
+  }
   fieldContainer.appendChild(input);
 
   return fieldContainer;
@@ -282,13 +326,10 @@ function viewProject(projectName) {
     // Create a modal for that will hold the form.
     const todoModal = document.createElement("dialog");
     todoModal.className = "create-todo-modal";
-
     // Append the form to the modal.
     todoModal.appendChild(createTodoForm());
-
     // Add the modal to the DOM.
     mainContent.appendChild(todoModal);
-
     // View the modal on on the page.
     todoModal.showModal();
   });
@@ -304,3 +345,13 @@ function viewProject(projectName) {
 }
 
 export { addProjectEvent, viewProject };
+
+// function setImportant(title) {
+//   // load the project using loadTodo().
+//   const project = loadProject();
+//   const importantProject = loadProject("Important");
+
+//   // Get the todo using Project.getTodo(title) method.
+//   // Add the return todo to the important project using the global Project array.
+//   importantProject.addTodo(project.getTodo(title));
+// }
