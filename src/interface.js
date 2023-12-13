@@ -99,7 +99,7 @@ function viewTodoForm(title, dueDate, priority, description, note) {
     makeChanges(title);
 
     // Close the modal.
-    const todoModal = document.querySelector(".create-todo-modal");
+    const todoModal = document.querySelector(".edit-todo-modal");
     todoModal.close();
     todoModal.remove();
   });
@@ -215,7 +215,7 @@ function makeChanges(oldTitle) {
   // Create a new ToDo object using the entries in the form.
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
-  const dueDate = document.getElementById("due-date");
+  const dueDate = document.getElementById("due-date").value;
   const priority = document.getElementById("priority").value;
   const note = document.getElementById("note").value;
   const modifiedTodo = ToDo(title, description, dueDate, priority, note);

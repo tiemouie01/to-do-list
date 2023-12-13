@@ -4,8 +4,8 @@ export default function Project(name) {
   const todos = [];
   const completedTodos = [];
 
-  const addTodo = (title, description, dueDate, priority) => {
-    todos.push(ToDo(title, description, dueDate, priority));
+  const addTodo = (title, description, dueDate, priority, note) => {
+    todos.push(ToDo(title, description, dueDate, priority, note));
   };
 
   const editTodo = (title, modifiedTodo) => {
