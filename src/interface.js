@@ -3,12 +3,22 @@ import ToDo from "./todo";
 
 const projects = [];
 projects.push(Project("Today's Todos"));
+projects.push(Project("Important"));
+
+// Make it so that a project is displayed when it is clicked on the sidebar.
+function addProjectSelectionEvent(event) {
+  const projectName = event.target.textContent;
+  viewProject(projectName);
+}
 
 function addProject(projectName) {
   // Add a newly created project to the sidebar.
   const projectsDiv = document.querySelector(".projects");
   const newProject = document.createElement("div");
   newProject.textContent = projectName;
+  newProject.addEventListener("click", (event) => {
+    addProjectSelectionEvent(event);
+  });
   projectsDiv.appendChild(newProject);
 }
 

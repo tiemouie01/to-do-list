@@ -12,6 +12,7 @@ export default function Project(name) {
     const index = todos.findIndex((todo) => todo.title === title);
     todos.splice(index, 1, modifiedTodo);
   };
+  
   const removeTodo = (title) => {
     const index = todos.findIndex((todo) => todo.title === title);
     todos.splice(index, 1);
