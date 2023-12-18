@@ -5,6 +5,16 @@ const projects = [];
 projects.push(Project("Today's Todos"));
 projects.push(Project("Important"));
 
+// Test values for tod0 cards
+projects[0].addTodo("Barber", "Get a fade", "Today", "High", "Tip the barber");
+projects[1].addTodo(
+  "Workout",
+  "Chest focus",
+  "Today",
+  "High",
+  "Use dumbbell exercises.",
+);
+
 // Make it so that a project is displayed when it is clicked on the sidebar.
 function addProjectSelectionEvent(event) {
   const projectName = event.target.textContent;
@@ -163,6 +173,27 @@ function createTodoCard(todo) {
     deleteTodo(todo.title);
   });
   buttonContainer.appendChild(deleteButton);
+
+  const importantButtonn = document.createElement("button");
+  importantButtonn.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.23,18L12,15.45L7.77,18L8.89,13.19L5.16,9.96L10.08,9.54L12,5L13.92,9.53L18.84,9.95L15.11,13.18L16.23,18M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>';
+  importantButtonn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const importantProject = loadProject("Important");
+    if (presentInProject(importantProject, todo.title)) {
+      importantProject.removeTodo(todo.title);
+    } else {
+      importantProject.addTodo(
+        todo.title,
+        todo.description,
+        todo.dueDate,
+        todo.priority,
+        todo.getNote(),
+      );
+    }
+  });
+  buttonContainer.appendChild(importantButtonn);
+
   card.appendChild(buttonContainer);
 
   // Add an event listener that allows a user to view the card in full.
@@ -197,6 +228,13 @@ function deleteTodo(title) {
   loadCards();
 }
 
+function presentInProject(project, todoName) {
+  // A function that checks if a todo exists in a given project.
+  const todoList = project.getTodoList();
+  if (todoList.some((todo) => todo.title === todoName)) return true;
+
+  return false;
+}
 function createTodo(event) {
   // This function is executed when a user clicks "Create Todo" on the "Add Todo" form.
 
@@ -356,13 +394,3 @@ function viewProject(projectName) {
 }
 
 export { addProjectEvent, viewProject };
-
-// function setImportant(title) {
-//   // load the project using loadTodo().
-//   const project = loadProject();
-//   const importantProject = loadProject("Important");
-
-//   // Get the todo using Project.getTodo(title) method.
-//   // Add the return todo to the important project using the global Project array.
-//   importantProject.addTodo(project.getTodo(title));
-// }
